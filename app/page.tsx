@@ -1,3 +1,4 @@
+import SubmissionForm from '@/components/submission-form'
 import { Demonlist } from '@/components/demonlist'
 import { SiteHeader } from '@/components/site-header'
 
@@ -16,6 +17,10 @@ export default function Page() {
         </div>
       </section>
       <Demonlist />
+      <section className="container max-w-2xl mx-auto my-12 p-6 border border-border rounded-lg bg-card">
+        <h2 className="text-xl font-bold mb-4">Submit Record</h2>
+        <SubmissionForm />
+      </section>
     </main>
   )
 }
