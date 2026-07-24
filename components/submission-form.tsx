@@ -77,12 +77,11 @@ export default function SubmissionForm() {
       />
 
       <input
-        type="url"
-        placeholder="Video URL"
+        type="text"
+        placeholder="Video URL (optional)"
         value={videoUrl}
         onChange={(e) => setVideoUrl(e.target.value)}
         className="rounded border p-2"
-        required
       />
 
       <button
