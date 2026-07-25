@@ -130,7 +130,8 @@ export const demons: Demon[] = [
       { username: 'astrogddd', progress: 100 },
       { username: 'Sarka0', progress: 100 },
       { username: 'skillleznoob', progress: 100 },
-  }
+    ],
+  },
 ]
 
 export type LeaderboardEntry = {
