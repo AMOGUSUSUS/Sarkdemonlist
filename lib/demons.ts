@@ -108,6 +108,18 @@ export const demons: Demon[] = [
   },
   {
     position: 7,
+    name: 'Denouement',
+    publisher: 'Synactive',
+    verifier: 'Synactive',
+    video: 'https://www.youtube.com/watch?v=LRwxRKhjHE0',
+    difficulty: 'Insane',
+    requirement: 100,
+    victors: [
+      { username: 'SumLikeDat', progress: 100 },
+    ],
+  },
+  {
+    position: 8,
     name: 'Jawbreaker',
     publisher: 'ZenthicAlpha',
     verifier: 'ZenthicAlpha',
@@ -119,7 +131,7 @@ export const demons: Demon[] = [
     ],
   },
   {
-    position: 8,
+    position: 9,
     name: 'Nine Circles',
     publisher: 'Zobros',
     verifier: 'Zobros',
@@ -130,6 +142,7 @@ export const demons: Demon[] = [
       { username: 'astrogddd', progress: 100 },
       { username: 'Sarka0', progress: 100 },
       { username: 'skillleznoob', progress: 100 },
+      { username: 'SumlikeDat', progress: 100 },
     ],
   },
 ]
