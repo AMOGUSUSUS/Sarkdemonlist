@@ -118,6 +118,19 @@ export const demons: Demon[] = [
       { username: 'SumLikeDat', progress: 100 },
     ],
   },
+  {
+    position: 8,
+    name: 'Nine Circles',
+    publisher: 'Zobros',
+    verifier: 'Zobros',
+    video: 'https://www.youtube.com/watch?v=4WCgpSYz-ug',
+    difficulty: 'Hard',
+    requirement: 100,
+    victors: [
+      { username: 'astrogddd', progress: 100 },
+      { username: 'Sarka0', progress: 100 },
+      { username: 'skillleznoob', progress: 100 },
+  }
 ]
 
 export type LeaderboardEntry = {
