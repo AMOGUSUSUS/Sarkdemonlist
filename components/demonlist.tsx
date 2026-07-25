@@ -5,7 +5,6 @@ import {
   Award,
   CheckCircle2,
   ChevronDown,
-  Send,
   Trophy,
   User,
   Users,
@@ -31,21 +30,6 @@ export function Demonlist() {
     [demons, selectedPosition],
   )
 
-  function addVictor(position: number, victor: Victor) {
-    setDemons((prev) =>
-      prev.map((demon) =>
-        demon.position === position
-          ? {
-              ...demon,
-              victors: [...demon.victors, victor].sort(
-                (a, b) => b.progress - a.progress,
-              ),
-            }
-          : demon,
-      ),
-    )
-  }
-
   return (
     <div className="mx-auto grid max-w-6xl gap-6 px-4 py-8 lg:grid-cols-[420px_1fr]">
       <DemonListPanel
@@ -53,7 +37,7 @@ export function Demonlist() {
         selected={selected}
         onSelect={(demon) => setSelectedPosition(demon.position)}
       />
-      <DemonDetail demon={selected} onAddVictor={addVictor} />
+      <DemonDetail demon={selected} />
     </div>
   )
 }
@@ -78,12 +62,10 @@ function DemonListPanel({
         {demons.map((demon) => {
           const isActive = demon.position === selected.position
           
-          // Get video ID (overriding specific levels if needed)
           let videoId = getYouTubeId(demon.video)
           if (demon.name === 'Bloodbath') videoId = 'twTw4fjT0ik'
           if (demon.name === 'Cataclysm') videoId = 'ubjzk15rqyU'
 
-          // hqdefault.jpg is guaranteed to load for every YouTube video
           const thumbnailUrl = videoId
             ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`
             : null
@@ -99,7 +81,6 @@ function DemonListPanel({
                   isActive ? 'bg-accent/80' : 'hover:bg-secondary/60',
                 )}
               >
-                {/* Level Image / Thumbnail */}
                 {thumbnailUrl ? (
                   <div className="relative h-20 w-32 shrink-0 overflow-hidden rounded border border-border shadow-sm">
                     <img
@@ -114,7 +95,6 @@ function DemonListPanel({
                   </div>
                 )}
 
-                {/* Level Text Info */}
                 <div className="min-w-0 flex-1">
                   <h3 className="truncate text-base font-black text-foreground">
                     #{demon.position} – {demon.name}
@@ -135,13 +115,7 @@ function DemonListPanel({
   )
 }
 
-function DemonDetail({
-  demon,
-  onAddVictor,
-}: {
-  demon: Demon
-  onAddVictor: (position: number, victor: Victor) => void
-}) {
+function DemonDetail({ demon }: { demon: Demon }) {
   let videoId = getYouTubeId(demon.video)
   if (demon.name === 'Bloodbath') videoId = 'twTw4fjT0ik'
   if (demon.name === 'Cataclysm') videoId = 'ubjzk15rqyU'
@@ -192,7 +166,6 @@ function DemonDetail({
       </dl>
 
       <VictorsSection demon={demon} />
-      <SubmitRecord demon={demon} onAddVictor={onAddVictor} />
     </section>
   )
 }
@@ -263,111 +236,6 @@ function VictorsSection({ demon }: { demon: Demon }) {
             </p>
           )}
         </div>
-      )}
-    </div>
-  )
-}
-
-function SubmitRecord({
-  demon,
-  onAddVictor,
-}: {
-  demon: Demon
-  onAddVictor: (position: number, victor: Victor) => void
-}) {
-  const [username, setUsername] = useState('')
-  const [progress, setProgress] = useState('')
-  const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState<string | null>(null)
-
-  function handleSubmit(event: React.FormEvent) {
-    event.preventDefault()
-    setError(null)
-    setSuccess(null)
-
-    const name = username.trim()
-    const value = Number(progress)
-
-    if (!name) {
-      setError('Please enter your Geometry Dash username.')
-      return
-    }
-    if (!Number.isFinite(value) || value < 1 || value > 100) {
-      setError('Completion must be a number between 1 and 100.')
-      return
-    }
-    if (value < demon.requirement) {
-      setError(`Completion must be at least ${demon.requirement}% for this demon.`)
-      return
-    }
-
-    onAddVictor(demon.position, { username: name, progress: value })
-    setSuccess(`Record submitted for ${name} — ${value}% on ${demon.name}!`)
-    setUsername('')
-    setProgress('')
-  }
-
-  return (
-    <div className="border-t border-border px-6 py-5">
-      <h3 className="flex items-center gap-3 font-semibold text-foreground">
-        <Send className="h-5 w-5 text-primary" aria-hidden="true" />
-        Submit a record
-      </h3>
-      <p className="mt-1 text-sm text-muted-foreground">
-        Beat {demon.name}? Submit your completion to be added to the victors list.
-      </p>
-
-      <form onSubmit={handleSubmit} className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-end">
-        <div className="flex-1">
-          <label
-            htmlFor="gd-username"
-            className="mb-1 block text-xs font-medium uppercase tracking-wide text-muted-foreground"
-          >
-            Geometry Dash username
-          </label>
-          <input
-            id="gd-username"
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="e.g. neigefeu"
-            className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-ring focus:ring-2 focus:ring-ring/30"
-          />
-        </div>
-        <div className="sm:w-32">
-          <label
-            htmlFor="gd-progress"
-            className="mb-1 block text-xs font-medium uppercase tracking-wide text-muted-foreground"
-          >
-            Completion %
-          </label>
-          <input
-            id="gd-progress"
-            type="number"
-            min={1}
-            max={100}
-            value={progress}
-            onChange={(e) => setProgress(e.target.value)}
-            placeholder="100"
-            className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground outline-none focus:border-ring focus:ring-2 focus:ring-ring/30"
-          />
-        </div>
-        <button
-          type="submit"
-          className="inline-flex items-center justify-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
-        >
-          <Send className="h-4 w-4" aria-hidden="true" />
-          Submit
-        </button>
-      </form>
-
-      {error && (
-        <p role="alert" className="mt-3 text-sm font-medium text-destructive">
-          {error}
-        </p>
-      )}
-      {success && (
-        <p className="mt-3 text-sm font-medium text-primary">{success}</p>
       )}
     </div>
   )
