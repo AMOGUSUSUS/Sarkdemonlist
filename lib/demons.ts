@@ -80,6 +80,7 @@ export const demons: Demon[] = [
     victors: [
       { username: 'skillleznoob', progress: 100 },
       { username: 'astrogddd', progress: 100 },
+      { username: 'Pingguo', progress: 100 },
     ],
   },
   {
