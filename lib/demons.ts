@@ -129,6 +129,7 @@ export const demons: Demon[] = [
     requirement: 100,
     victors: [
       { username: 'SumLikeDat', progress: 100 },
+      { username: 'Pingguo', progress: 100 },
     ],
   },
   {
@@ -144,6 +145,7 @@ export const demons: Demon[] = [
       { username: 'Sarka0', progress: 100 },
       { username: 'skillleznoob', progress: 100 },
       { username: 'SumlikeDat', progress: 100 },
+      { username: 'Pingguo', progress: 100 },
     ],
   },
 ]
